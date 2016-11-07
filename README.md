@@ -21,6 +21,9 @@ $ python web_wsgi.py flaskapp:app
 $
 $ # Run the bottle app
 $ python web_wsgi.py bottleapp:app
+$ 
+$ # Run the Alfred one
+$ python web_wsgi.py alfredapp:app
 ```
 
 For each of these, check out your browser at http://localhost:8888/hello, or curl it manually at
