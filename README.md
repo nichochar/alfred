@@ -15,13 +15,13 @@ This repository is still a work in progress around WSGI servers and applications
 ```bash
 $ # Run the server and the pyramid web application
 $ python web_wsgi.py pyramidapp:app
-$
+
 $ # Run the server and the flask web application
 $ python web_wsgi.py flaskapp:app
-$
+
 $ # Run the bottle app
 $ python web_wsgi.py bottleapp:app
-$ 
+
 $ # Run the Alfred one
 $ python web_wsgi.py alfredapp:app
 ```
