@@ -1,23 +1,22 @@
 import socket
 import StringIO
 import sys
+import time
 
 
-RECEIVE_BYTES = 1024
 SERVER_ADDRESS = (HOST, PORT) = '', 8888
 
 
 class WSGIServer(object):
 
-    address_family = socket.AF_INET
-    socket_type = socket.SOCK_STREAM
-    request_queue_size = 1
+    request_queue_size = 5  # backlog # of requests the servers can wait on
+    receive_bytes = 1024
 
     def __init__(self, server_address):
         # Create a listening socket
-        self.listen_socket = listen_socket = socket.socket(self.address_family, self.socket_type)
+        self.listen_socket = listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        # Allow to reuse the same address
+        # Allow to reuse the same address if you restart the server
         listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # Bind
@@ -45,7 +44,7 @@ class WSGIServer(object):
             self.handle_one_request()
 
     def handle_one_request(self):
-        self.request_data = request_data = self.client_connection.recv(RECEIVE_BYTES)
+        self.request_data = request_data = self.client_connection.recv(self.receive_bytes)
         # Print formatted request data a la 'curl -v'
         print (''.join('< {line}\n'.format(line=line) for line in request_data.splitlines()))
 
@@ -115,6 +114,7 @@ class WSGIServer(object):
             # Print formatted response data a la 'curl -v'
             print ''.join('> {line}\n'.format(line=line) for line in response.splitlines())
             self.client_connection.sendall(response)
+            time.sleep(4)
         finally:
             self.client_connection.close()
 
